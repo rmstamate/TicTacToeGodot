@@ -1,0 +1,113 @@
+[gd_scene load_steps=8 format=3 uid="uid://csqnolcf6yruu"]
+
+[ext_resource type="Script" path="res://Main.cs" id="1_6vqet"]
+[ext_resource type="PackedScene" uid="uid://c60s518wj7r4a" path="res://board.tscn" id="1_fuprp"]
+[ext_resource type="PackedScene" uid="uid://q6x23xwo3kad" path="res://circle.tscn" id="2_r1aoj"]
+[ext_resource type="PackedScene" uid="uid://u1e6cdw2xen3" path="res://cross.tscn" id="3_q7kk0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmamw"]
+bg_color = Color(0, 0.666667, 0.803922, 1)
+border_width_left = 5
+border_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwrr7"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.333333, 0.333333, 0.333333, 0.129412)
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_53qek"]
+bg_color = Color(0, 0.666667, 0.803922, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.0862745)
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[node name="Main" type="Node" node_paths=PackedStringArray("nextPlayerMarkerPosition", "textLabel", "gameOverMenu")]
+script = ExtResource("1_6vqet")
+circleScene = ExtResource("2_r1aoj")
+crossScene = ExtResource("3_q7kk0")
+nextPlayerMarkerPosition = NodePath("NextPlayerMarker")
+textLabel = NodePath("PlayerLabel")
+gameOverMenu = NodePath("GameOverMenu")
+
+[node name="Board" parent="." instance=ExtResource("1_fuprp")]
+position = Vector2(300, 300)
+
+[node name="SidePanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(300, 600)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qmamw")
+
+[node name="PlayerLabel" type="Label" parent="."]
+offset_left = 600.0
+offset_top = 120.0
+offset_right = 900.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 32
+text = "Next Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -250.0
+offset_top = 225.0
+offset_right = -50.0
+offset_bottom = 425.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cwrr7")
+
+[node name="NextPlayerMarker" type="Marker2D" parent="."]
+position = Vector2(750, 320)
+
+[node name="GameOverMenu" type="CanvasLayer" parent="."]
+
+[node name="GameOverPanel" type="Panel" parent="GameOverMenu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -75.0
+offset_right = 75.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_53qek")
+
+[node name="ResultLabel" type="Label" parent="GameOverMenu/GameOverPanel"]
+layout_mode = 1
+offset_top = 22.0
+offset_right = 300.0
+offset_bottom = 52.0
+text = "Play Again?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="GameOverMenu/GameOverPanel"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 75.0
+offset_right = 225.0
+offset_bottom = 106.0
+text = "Restart"
+
+[connection signal="pressed" from="GameOverMenu/GameOverPanel/Button" to="." method="OnButtonPressed"]
